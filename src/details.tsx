@@ -1,6 +1,6 @@
 import { Carousel } from "./carousel";
 import { Card, type CardItem } from "./card";
-import { useNavigate } from "react-router";
+import { useParams } from "react-router";
 
 const CAROUSEL_ITEMS: CardItem[] = [
   { id: 1, title: "Item 1", bgColor: "bg-red-500" },
@@ -11,29 +11,23 @@ const CAROUSEL_ITEMS: CardItem[] = [
   { id: 6, title: "Item 6", bgColor: "bg-pink-500" },
 ];
 
-function App() {
-  const navigate = useNavigate();
+export const Details = () => {
+  const { id = 0 } = useParams();
+  console.log({ id });
 
-  const onClick = (id: number, isSelected: boolean) => {
-    if (!isSelected) return;
-    console.log(id);
-    navigate(`/details/${id}`);
-  };
+  const item = CAROUSEL_ITEMS.filter((item) => item.id === Number(id));
+
+  if (!item) return;
+
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-900 text-white">
       <h1 className="text-2xl font-bold mb-4">3D carousel</h1>
       <Carousel
-        items={CAROUSEL_ITEMS}
+        items={item}
         renderItem={(item, isSelected) => (
-          <Card
-            item={item}
-            isSelected={isSelected}
-            onClick={() => onClick(item.id, isSelected)}
-          />
+          <Card item={item} isSelected={isSelected} />
         )}
       ></Carousel>
     </div>
   );
-}
-
-export default App;
+};
