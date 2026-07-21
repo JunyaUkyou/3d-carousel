@@ -9,6 +9,7 @@ export type CardItem = {
 type Props = {
   item: CardItem;
   isSelected: boolean;
+  isLeaving?: boolean;
   onClick?: () => void;
 };
 
@@ -19,13 +20,21 @@ const cardStyle = tv({
       true: "cursor-pointer",
       false: "cursor-default opacity-50",
     },
+    isLeaving: {
+      true: "opacity-0",
+    },
   },
 });
 
-export const Card = ({ item, isSelected, onClick }: Props) => {
+export const Card = ({
+  item,
+  isSelected,
+  isLeaving = false,
+  onClick,
+}: Props) => {
   return (
     <div
-      className={`${cardStyle({ isSelected })} ${item.bgColor}`}
+      className={`${cardStyle({ isSelected, isLeaving })} ${item.bgColor}`}
       onClick={onClick}
     >
       <p>{item.id}</p>

@@ -1,3 +1,5 @@
+import { useState } from "react";
+import { tv } from "tailwind-variants";
 import { Carousel } from "./carousel";
 import { Card, type CardItem } from "./card";
 import { useNavigate } from "react-router";
@@ -11,26 +13,43 @@ const CAROUSEL_ITEMS: CardItem[] = [
   { id: 6, title: "Item 6", bgColor: "bg-pink-500" },
 ];
 
+const titleStyle = tv({
+  base: "text-2xl font-bold mb-4 transition-opacity duration-700",
+  variants: {
+    isLeaving: {
+      true: "opacity-0",
+    },
+  },
+});
+
 function App() {
+  const [isLeaving, setIsLeaving] = useState(false);
   const navigate = useNavigate();
 
   const onClick = (id: number, isSelected: boolean) => {
     if (!isSelected) return;
+    setIsLeaving(true);
     console.log(id);
-    navigate(`/details/${id}`);
+    // navigate(`/details/${id}`);
   };
+
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-900 text-white">
-      <h1 className="text-2xl font-bold mb-4">3D carousel</h1>
+      <h1 className={titleStyle({ isLeaving })}>3D carousel</h1>
       <Carousel
         items={CAROUSEL_ITEMS}
-        renderItem={(item, isSelected) => (
-          <Card
-            item={item}
-            isSelected={isSelected}
-            onClick={() => onClick(item.id, isSelected)}
-          />
-        )}
+        isLeaving={isLeaving}
+        renderItem={(item, isSelected) => {
+          const isOtherItemSelected = isLeaving && !isSelected;
+          return (
+            <Card
+              item={item}
+              isSelected={isSelected}
+              isLeaving={isOtherItemSelected}
+              onClick={() => onClick(item.id, isSelected)}
+            />
+          );
+        }}
       ></Carousel>
     </div>
   );
