@@ -1,8 +1,6 @@
 import { useRef } from "react";
 import { Carousel, type CarouselRef } from "../../components/carousel";
 import { Card, type CardItem } from "../../components/card";
-import { usePageStatus } from "../../hooks/usePageStatus";
-import { Title } from "./title";
 import { Nav } from "./nav";
 
 const CAROUSEL_ITEMS: CardItem[] = [
@@ -15,39 +13,21 @@ const CAROUSEL_ITEMS: CardItem[] = [
 ];
 
 export const Home = () => {
-  const { pageStatus, handlePageStatus } = usePageStatus();
-  const hideCarousel = pageStatus !== "idle";
-
-  const onCardClick = (id: number, isActiveIndex: boolean) => {
-    if (!isActiveIndex) return;
-    handlePageStatus(id);
-  };
-
   const carouselRef = useRef<CarouselRef>(null);
   const prev = () => carouselRef.current?.prev();
   const next = () => carouselRef.current?.next();
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-900 text-white">
-      <Title text="3D carousel" hideCarousel={hideCarousel} />
+      <h1 className="text-2xl font-bold mb-4">3D carousel</h1>
       <Carousel
         ref={carouselRef}
         items={CAROUSEL_ITEMS}
         renderItem={(item, isActiveIndex) => {
-          const isOtherItemSelected = hideCarousel && !isActiveIndex;
-          return (
-            <Card
-              item={item}
-              isActiveIndex={isActiveIndex}
-              pageStatus={pageStatus}
-              isLeaving={isOtherItemSelected}
-              onClick={() => onCardClick(item.id, isActiveIndex)}
-            />
-          );
+          return <Card item={item} isActiveIndex={isActiveIndex} />;
         }}
       ></Carousel>
-
-      <Nav hideCarousel={hideCarousel} prev={prev} next={next} />
+      <Nav prev={prev} next={next} />
     </div>
   );
 };
