@@ -1,15 +1,23 @@
-import { type ReactNode, useState } from "react";
-import { tv } from "tailwind-variants";
-import { Button } from "./button";
-import { getNormalizedIndex } from "../utilities/getNormalizedIndex";
+import {
+  type ReactNode,
+  type RefObject,
+  useState,
+  useImperativeHandle,
+} from "react";
+import { getNormalizedIndex } from "../../utilities/getNormalizedIndex";
+
+export type CarouselRef = {
+  next: () => void;
+  prev: () => void;
+};
 
 type Props<T> = {
+  ref: RefObject<CarouselRef | null>;
   items: T[];
-  isLeaving: boolean;
   renderItem: (data: T, isSelected: boolean) => ReactNode;
 };
 
-export const Carousel = <T,>({ items, renderItem, isLeaving }: Props<T>) => {
+export const Carousel = <T,>({ ref, items, renderItem }: Props<T>) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const totalItems = items.length;
   const angleStep = 360 / totalItems;
@@ -22,14 +30,10 @@ export const Carousel = <T,>({ items, renderItem, isLeaving }: Props<T>) => {
     setCurrentIndex((prev) => prev + 1);
   };
 
-  const buttonStyle = tv({
-    base: "mt-4 flex justify-between transition-opacity duration-700",
-    variants: {
-      isLeaving: {
-        true: "opacity-0",
-      },
-    },
-  });
+  useImperativeHandle(ref, () => ({
+    next,
+    prev,
+  }));
 
   return (
     <div className="flex flex-col">
@@ -60,10 +64,6 @@ export const Carousel = <T,>({ items, renderItem, isLeaving }: Props<T>) => {
             );
           })}
         </div>
-      </div>
-      <div className={buttonStyle({ isLeaving })}>
-        <Button onClick={prev} text={"← Prev"} />
-        <Button onClick={next} text={"Next →"} />
       </div>
     </div>
   );

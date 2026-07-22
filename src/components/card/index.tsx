@@ -1,5 +1,5 @@
 import { tv } from "tailwind-variants";
-import { type PageStatus } from "../hooks/usePageStatus";
+import { type PageStatus } from "../../hooks/usePageStatus";
 
 export type CardItem = {
   id: number;

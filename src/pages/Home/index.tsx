@@ -1,7 +1,9 @@
-import { tv } from "tailwind-variants";
-import { Carousel } from "./carousel";
-import { Card, type CardItem } from "./card";
-import { usePageStatus } from "./hooks/usePageStatus";
+import { useRef } from "react";
+import { Carousel, type CarouselRef } from "../../components/carousel";
+import { Card, type CardItem } from "../../components/card";
+import { usePageStatus } from "../../hooks/usePageStatus";
+import { Title } from "./title";
+import { Nav } from "./nav";
 
 const CAROUSEL_ITEMS: CardItem[] = [
   { id: 1, title: "Item 1", bgColor: "bg-red-500" },
@@ -12,45 +14,40 @@ const CAROUSEL_ITEMS: CardItem[] = [
   { id: 6, title: "Item 6", bgColor: "bg-pink-500" },
 ];
 
-const titleStyle = tv({
-  base: "text-2xl font-bold mb-4 transition-opacity duration-700",
-  variants: {
-    isLeaving: {
-      true: "opacity-0",
-    },
-  },
-});
-
-function App() {
+export const Home = () => {
   const { pageStatus, handlePageStatus } = usePageStatus();
-  const isLeaving = pageStatus !== "idle";
+  const hideCarousel = pageStatus !== "idle";
 
-  const onClick = (id: number, isActiveIndex: boolean) => {
+  const onCardClick = (id: number, isActiveIndex: boolean) => {
     if (!isActiveIndex) return;
     handlePageStatus(id);
   };
 
+  const carouselRef = useRef<CarouselRef>(null);
+  const prev = () => carouselRef.current?.prev();
+  const next = () => carouselRef.current?.next();
+
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-900 text-white">
-      <h1 className={titleStyle({ isLeaving })}>3D carousel</h1>
+      <Title text="3D carousel" hideCarousel={hideCarousel} />
       <Carousel
+        ref={carouselRef}
         items={CAROUSEL_ITEMS}
-        isLeaving={isLeaving}
         renderItem={(item, isActiveIndex) => {
-          const isOtherItemSelected = isLeaving && !isActiveIndex;
+          const isOtherItemSelected = hideCarousel && !isActiveIndex;
           return (
             <Card
               item={item}
               isActiveIndex={isActiveIndex}
               pageStatus={pageStatus}
               isLeaving={isOtherItemSelected}
-              onClick={() => onClick(item.id, isActiveIndex)}
+              onClick={() => onCardClick(item.id, isActiveIndex)}
             />
           );
         }}
       ></Carousel>
+
+      <Nav hideCarousel={hideCarousel} prev={prev} next={next} />
     </div>
   );
-}
-
-export default App;
+};

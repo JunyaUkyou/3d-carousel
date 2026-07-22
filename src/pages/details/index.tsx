@@ -1,4 +1,4 @@
-import { type CardItem } from "./card";
+import { type CardItem } from "../../components/card";
 import { useParams } from "react-router";
 
 const CAROUSEL_ITEMS: CardItem[] = [
