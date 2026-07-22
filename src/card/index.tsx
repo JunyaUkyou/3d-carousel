@@ -1,4 +1,5 @@
 import { tv } from "tailwind-variants";
+import { type PageStatus } from "../hooks/usePageStatus";
 
 export type CardItem = {
   id: number;
@@ -8,15 +9,16 @@ export type CardItem = {
 
 type Props = {
   item: CardItem;
-  isSelected: boolean;
-  isLeaving?: boolean;
+  isActiveIndex: boolean;
+  isLeaving: boolean;
+  pageStatus: PageStatus;
   onClick?: () => void;
 };
 
 const cardStyle = tv({
   base: "w-full h-full transition-opacity duration-700",
   variants: {
-    isSelected: {
+    isActiveIndex: {
       true: "cursor-pointer",
       false: "cursor-default opacity-50",
     },
@@ -28,13 +30,13 @@ const cardStyle = tv({
 
 export const Card = ({
   item,
-  isSelected,
+  isActiveIndex,
   isLeaving = false,
   onClick,
 }: Props) => {
   return (
     <div
-      className={`${cardStyle({ isSelected, isLeaving })} ${item.bgColor}`}
+      className={`${cardStyle({ isActiveIndex, isLeaving })} ${item.bgColor}`}
       onClick={onClick}
     >
       <p>{item.id}</p>

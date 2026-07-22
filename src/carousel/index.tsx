@@ -46,7 +46,7 @@ export const Carousel = <T,>({ items, renderItem, isLeaving }: Props<T>) => {
               currentIndex,
               totalItems,
             );
-            const isSelected = index === normalizedCurrentIndex;
+            const isActiveIndex = index === normalizedCurrentIndex;
             return (
               <div
                 key={index}
@@ -55,7 +55,7 @@ export const Carousel = <T,>({ items, renderItem, isLeaving }: Props<T>) => {
                   transform: `rotateY(${itemAngle}deg) translateZ(${radius}px)`,
                 }}
               >
-                {renderItem(item, isSelected)}
+                {renderItem(item, isActiveIndex)}
               </div>
             );
           })}

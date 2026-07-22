@@ -1,8 +1,7 @@
-import { useState } from "react";
 import { tv } from "tailwind-variants";
 import { Carousel } from "./carousel";
 import { Card, type CardItem } from "./card";
-import { useNavigate } from "react-router";
+import { usePageStatus } from "./hooks/usePageStatus";
 
 const CAROUSEL_ITEMS: CardItem[] = [
   { id: 1, title: "Item 1", bgColor: "bg-red-500" },
@@ -23,14 +22,12 @@ const titleStyle = tv({
 });
 
 function App() {
-  const [isLeaving, setIsLeaving] = useState(false);
-  const navigate = useNavigate();
+  const { pageStatus, handlePageStatus } = usePageStatus();
+  const isLeaving = pageStatus !== "idle";
 
-  const onClick = (id: number, isSelected: boolean) => {
-    if (!isSelected) return;
-    setIsLeaving(true);
-    console.log(id);
-    // navigate(`/details/${id}`);
+  const onClick = (id: number, isActiveIndex: boolean) => {
+    if (!isActiveIndex) return;
+    handlePageStatus(id);
   };
 
   return (
@@ -39,14 +36,15 @@ function App() {
       <Carousel
         items={CAROUSEL_ITEMS}
         isLeaving={isLeaving}
-        renderItem={(item, isSelected) => {
-          const isOtherItemSelected = isLeaving && !isSelected;
+        renderItem={(item, isActiveIndex) => {
+          const isOtherItemSelected = isLeaving && !isActiveIndex;
           return (
             <Card
               item={item}
-              isSelected={isSelected}
+              isActiveIndex={isActiveIndex}
+              pageStatus={pageStatus}
               isLeaving={isOtherItemSelected}
-              onClick={() => onClick(item.id, isSelected)}
+              onClick={() => onClick(item.id, isActiveIndex)}
             />
           );
         }}
