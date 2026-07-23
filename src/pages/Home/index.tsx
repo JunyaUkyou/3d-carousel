@@ -1,7 +1,5 @@
-import { useRef } from "react";
-import { Carousel, type CarouselRef } from "../../components/carousel";
+import { Carousel } from "../../components/carousel";
 import { Card, type CardItem } from "../../components/card";
-import { Nav } from "./nav";
 
 const CAROUSEL_ITEMS: CardItem[] = [
   { id: 1, title: "Item 1", bgColor: "bg-red-500" },
@@ -13,21 +11,17 @@ const CAROUSEL_ITEMS: CardItem[] = [
 ];
 
 export const Home = () => {
-  const carouselRef = useRef<CarouselRef>(null);
-  const prev = () => carouselRef.current?.prev();
-  const next = () => carouselRef.current?.next();
-
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-900 text-white">
-      <h1 className="text-2xl font-bold mb-24">3D carousel</h1>
-      <Carousel
-        ref={carouselRef}
-        items={CAROUSEL_ITEMS}
-        renderItem={(item, isActiveIndex) => {
-          return <Card item={item} isActiveIndex={isActiveIndex} />;
-        }}
-      ></Carousel>
-      <Nav prev={prev} next={next} />
+      <h1 className="text-2xl font-bold mb-24">3D Carousel</h1>
+      <div className="flex flex-col">
+        <Carousel
+          items={CAROUSEL_ITEMS}
+          renderItem={(item, isActiveIndex) => {
+            return <Card item={item} isActiveIndex={isActiveIndex} />;
+          }}
+        ></Carousel>
+      </div>
     </div>
   );
 };

@@ -1,38 +1,32 @@
-import {
-  type ReactNode,
-  type RefObject,
-  useState,
-  useImperativeHandle,
-} from "react";
+import { type ReactNode, useState, useMemo, useCallback } from "react";
 import { getNormalizedIndex } from "../../utilities/getNormalizedIndex";
+import { Nav } from "./nav";
 
-export type CarouselRef = {
-  next: () => void;
-  prev: () => void;
-};
-
-type Props<T> = {
-  ref: RefObject<CarouselRef | null>;
+type Props<T extends { id: number }> = {
   items: T[];
   renderItem: (data: T, isSelected: boolean) => ReactNode;
 };
 
-export const Carousel = <T,>({ ref, items, renderItem }: Props<T>) => {
+export const Carousel = <T extends { id: number }>({
+  items,
+  renderItem,
+}: Props<T>) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const totalItems = items.length;
   const angleStep = 360 / totalItems;
 
-  const prev = () => {
+  const prev = useCallback(() => {
     setCurrentIndex((prev) => prev - 1);
-  };
-  const next = () => {
-    setCurrentIndex((prev) => prev + 1);
-  };
+  }, []);
 
-  useImperativeHandle(ref, () => ({
-    next,
-    prev,
-  }));
+  const next = useCallback(() => {
+    setCurrentIndex((prev) => prev + 1);
+  }, []);
+
+  const normalizedCurrentIndex = useMemo(
+    () => getNormalizedIndex(currentIndex, totalItems),
+    [currentIndex, totalItems],
+  );
 
   return (
     <div className="flex flex-col">
@@ -45,14 +39,10 @@ export const Carousel = <T,>({ ref, items, renderItem }: Props<T>) => {
         >
           {items.map((item, index) => {
             const itemAngle = index * angleStep;
-            const normalizedCurrentIndex = getNormalizedIndex(
-              currentIndex,
-              totalItems,
-            );
             const isActiveIndex = index === normalizedCurrentIndex;
             return (
               <div
-                key={index}
+                key={item.id}
                 className={`absolute inset-0 backface-visible`}
                 style={{
                   transform: `rotateY(${itemAngle}deg) translateZ(var(--carousel-radius))`,
@@ -64,6 +54,7 @@ export const Carousel = <T,>({ ref, items, renderItem }: Props<T>) => {
           })}
         </div>
       </div>
+      <Nav prev={prev} next={next} />
     </div>
   );
 };
