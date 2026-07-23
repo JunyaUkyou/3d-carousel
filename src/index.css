@@ -1,1 +1,6 @@
 @import "tailwindcss";
+
+@theme {
+  --radius-carousel-sm: 210px;
+  --radius-carousel-md: 300px;
+}
