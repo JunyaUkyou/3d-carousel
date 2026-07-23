@@ -41,7 +41,7 @@ export const Carousel = <T,>({ ref, items, renderItem }: Props<T>) => {
         <div
           className="absolute w-full h-full transition-transform duration-700 transform-3d"
           style={{
-            transform: `translateZ(-${radius}px) rotateY(${-currentIndex * angleStep}deg)`,
+            transform: `rotateX(-20deg) translateZ(-${radius}px) rotateY(${-currentIndex * angleStep}deg)`,
           }}
         >
           {items.map((item, index) => {
@@ -54,7 +54,7 @@ export const Carousel = <T,>({ ref, items, renderItem }: Props<T>) => {
             return (
               <div
                 key={index}
-                className={`absolute inset-0 backface-visible `}
+                className={`absolute inset-0 backface-visible`}
                 style={{
                   transform: `rotateY(${itemAngle}deg) translateZ(${radius}px)`,
                 }}

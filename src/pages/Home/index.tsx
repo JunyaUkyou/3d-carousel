@@ -19,7 +19,7 @@ export const Home = () => {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-900 text-white">
-      <h1 className="text-2xl font-bold mb-4">3D carousel</h1>
+      <h1 className="text-2xl font-bold mb-24">3D carousel</h1>
       <Carousel
         ref={carouselRef}
         items={CAROUSEL_ITEMS}
