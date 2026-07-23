@@ -43,7 +43,7 @@ export const Carousel = <T extends { id: number }>({
             return (
               <div
                 key={item.id}
-                className={`absolute inset-0 backface-visible`}
+                className="absolute inset-0 backface-visible"
                 style={{
                   transform: `rotateY(${itemAngle}deg) translateZ(var(--carousel-radius))`,
                 }}
