@@ -8,22 +8,26 @@ export type CardItem = {
 
 type Props = {
   item: CardItem;
-  isSelected: boolean;
+  isActiveIndex: boolean;
+  onClick?: () => void;
 };
 
 const cardStyle = tv({
   base: "w-full h-full transition-opacity duration-700",
   variants: {
-    isSelected: {
+    isActiveIndex: {
       true: "cursor-pointer",
       false: "cursor-default opacity-50",
     },
   },
 });
 
-export const Card = ({ item, isSelected }: Props) => {
+export const Card = ({ item, isActiveIndex, onClick }: Props) => {
   return (
-    <div className={`${cardStyle({ isSelected })} ${item.bgColor}`}>
+    <div
+      className={`${cardStyle({ isActiveIndex })} ${item.bgColor}`}
+      onClick={onClick}
+    >
       <p>{item.id}</p>
       <p>{item.title}</p>
     </div>

@@ -1,5 +1,5 @@
-import { Carousel } from "./carousel";
-import { Card, type CardItem } from "./card";
+import { Carousel } from "../../components/carousel";
+import { Card, type CardItem } from "../../components/card";
 
 const CAROUSEL_ITEMS: CardItem[] = [
   { id: 1, title: "Item 1", bgColor: "bg-red-500" },
@@ -10,18 +10,18 @@ const CAROUSEL_ITEMS: CardItem[] = [
   { id: 6, title: "Item 6", bgColor: "bg-pink-500" },
 ];
 
-function App() {
+export const Home = () => {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-900 text-white">
-      <h1 className="text-2xl font-bold mb-4">3D carousel</h1>
-      <Carousel
-        items={CAROUSEL_ITEMS}
-        renderItem={(item, isSelected) => (
-          <Card item={item} isSelected={isSelected} />
-        )}
-      ></Carousel>
+      <h1 className="text-2xl font-bold mb-24">3D Carousel</h1>
+      <div className="flex flex-col">
+        <Carousel
+          items={CAROUSEL_ITEMS}
+          renderItem={(item, isActiveIndex) => {
+            return <Card item={item} isActiveIndex={isActiveIndex} />;
+          }}
+        ></Carousel>
+      </div>
     </div>
   );
-}
-
-export default App;
+};
