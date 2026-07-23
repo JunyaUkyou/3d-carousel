@@ -1,16 +1,12 @@
+import { useEffect } from "react";
 import { tv } from "tailwind-variants";
-
-export type CardItem = {
-  id: number;
-  title: string;
-  bgColor: string;
-  imageUrl: string;
-};
+import { type CarouselItem, type EffectType } from "../../utilities/type";
 
 type Props = {
-  item: CardItem;
+  item: CarouselItem;
   isActiveIndex: boolean;
   onClick?: () => void;
+  onEffect: (effectType: EffectType | undefined) => void;
 };
 
 const cardStyle = tv({
@@ -23,7 +19,13 @@ const cardStyle = tv({
   },
 });
 
-export const Card = ({ item, isActiveIndex, onClick }: Props) => {
+export const Card = ({ item, isActiveIndex, onClick, onEffect }: Props) => {
+  useEffect(() => {
+    if (isActiveIndex) {
+      onEffect(item.effectType);
+    }
+  }, [item, isActiveIndex, onEffect]);
+
   return (
     <div
       className={`${cardStyle({ isActiveIndex })} ${item.bgColor}`}

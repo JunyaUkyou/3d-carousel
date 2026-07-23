@@ -1,9 +1,18 @@
+import { useState, useCallback } from "react";
 import { Carousel } from "../../components/carousel";
-import { Card, type CardItem } from "../../components/card";
+import { Card } from "../../components/card";
+import { RainEffect } from "../../components/RainEffect";
+import { type CarouselItem, type EffectType } from "../../utilities/type";
 
-const CAROUSEL_ITEMS: CardItem[] = [
+const CAROUSEL_ITEMS: CarouselItem[] = [
   { id: 1, title: "Item 1", bgColor: "bg-red-500", imageUrl: "/items/7.webp" },
-  { id: 2, title: "Item 2", bgColor: "bg-blue-500", imageUrl: "/items/8.webp" },
+  {
+    id: 2,
+    title: "Item 2",
+    bgColor: "bg-blue-500",
+    imageUrl: "/items/8.webp",
+    effectType: "RAIN",
+  },
   {
     id: 3,
     title: "Item 3",
@@ -26,16 +35,31 @@ const CAROUSEL_ITEMS: CardItem[] = [
 ];
 
 export const Home = () => {
+  const [effect, setEffect] = useState<EffectType | undefined>(undefined);
+
+  const onEffect = useCallback((effect: EffectType | undefined) => {
+    setEffect(effect);
+  }, []);
+
   return (
-    <div className="flex flex-col gap-6 items-center justify-center min-h-screen bg-gray-900 text-white">
+    <div className="relative  bg-gray-900 text-white">
+      <RainEffect isDisplay={effect === "RAIN"} />
       <h1 className="text-2xl font-bold">3D Carousel</h1>
 
-      <Carousel
-        items={CAROUSEL_ITEMS}
-        renderItem={(item, isActiveIndex) => {
-          return <Card item={item} isActiveIndex={isActiveIndex} />;
-        }}
-      ></Carousel>
+      <div className="relative flex flex-col gap-6 items-center justify-center min-h-screen">
+        <Carousel
+          items={CAROUSEL_ITEMS}
+          renderItem={(item, isActiveIndex) => {
+            return (
+              <Card
+                item={item}
+                isActiveIndex={isActiveIndex}
+                onEffect={onEffect}
+              />
+            );
+          }}
+        ></Carousel>
+      </div>
     </div>
   );
 };

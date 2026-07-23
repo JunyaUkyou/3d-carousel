@@ -4,4 +4,15 @@
   --radius-carousel: 260px;
   --radius-carousel-sm: 400px;
   --radius-carousel-md: 550px;
+
+  --animate-rain: rain 0.8s linear infinite;
+
+  @keyframes rain {
+    0% {
+      transform: translateY(0);
+    }
+    100% {
+      transform: rotate(-5deg) translateY(105vh);
+    }
+  }
 }
