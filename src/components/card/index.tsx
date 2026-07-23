@@ -4,6 +4,7 @@ export type CardItem = {
   id: number;
   title: string;
   bgColor: string;
+  imageUrl: string;
 };
 
 type Props = {
@@ -13,11 +14,11 @@ type Props = {
 };
 
 const cardStyle = tv({
-  base: "w-full h-full transition-opacity duration-700",
+  base: "w-full h-full transition-opacity duration-700 ",
   variants: {
     isActiveIndex: {
       true: "cursor-pointer",
-      false: "cursor-default opacity-50",
+      false: "cursor-default opacity-20",
     },
   },
 });
@@ -28,8 +29,12 @@ export const Card = ({ item, isActiveIndex, onClick }: Props) => {
       className={`${cardStyle({ isActiveIndex })} ${item.bgColor}`}
       onClick={onClick}
     >
-      <p>{item.id}</p>
-      <p>{item.title}</p>
+      <img
+        src={item.imageUrl}
+        className="w-full h-full object-cover object-center max-w-full max-h-full"
+      />
+      {/* <p>{item.id}</p>
+      <p>{item.title}</p> */}
     </div>
   );
 };

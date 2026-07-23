@@ -29,29 +29,36 @@ export const Carousel = <T extends { id: number }>({
   );
 
   return (
-    <div className="flex flex-col">
-      <div className="relative w-56 h-64 md:w-80 md:h-96 [--carousel-radius:var(--radius-carousel-sm)]  md:[--carousel-radius:var(--radius-carousel-md)] flex items-center justify-center perspective-midrange">
+    <div className="flex flex-col w-full gap-6 justify-center items-center ">
+      <div className="relative w-70 h-42.5 sm:w-110 sm:h-64 md:w-140 md:h-87.5 [--carousel-radius:var(--radius-carousel)] sm:[--carousel-radius:var(--radius-carousel-sm)] md:[--carousel-radius:var(--radius-carousel-md)] flex items-center justify-center perspective-midrange">
         <div
-          className="absolute w-full h-full transition-transform duration-700 transform-3d"
+          className="absolute w-full h-full transform-3d"
           style={{
-            transform: `rotateX(-20deg) translateZ(calc(-1 * var(--carousel-radius))) rotateY(${-currentIndex * angleStep}deg)`,
+            transform: `translateZ(calc(-1 * var(--carousel-radius)))`,
           }}
         >
-          {items.map((item, index) => {
-            const itemAngle = index * angleStep;
-            const isActiveIndex = index === normalizedCurrentIndex;
-            return (
-              <div
-                key={item.id}
-                className="absolute inset-0 backface-visible"
-                style={{
-                  transform: `rotateY(${itemAngle}deg) translateZ(var(--carousel-radius))`,
-                }}
-              >
-                {renderItem(item, isActiveIndex)}
-              </div>
-            );
-          })}
+          <div
+            className="absolute w-full h-full transition-transform duration-700 transform-3d"
+            style={{
+              transform: `rotateY(${-currentIndex * angleStep}deg)`,
+            }}
+          >
+            {items.map((item, index) => {
+              const itemAngle = index * angleStep;
+              const isActiveIndex = index === normalizedCurrentIndex;
+              return (
+                <div
+                  key={item.id}
+                  className="absolute inset-0 backface-visible"
+                  style={{
+                    transform: `rotateY(${itemAngle}deg) translateZ(var(--carousel-radius))`,
+                  }}
+                >
+                  {renderItem(item, isActiveIndex)}
+                </div>
+              );
+            })}
+          </div>
         </div>
       </div>
       <Nav prev={prev} next={next} />

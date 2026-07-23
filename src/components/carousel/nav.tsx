@@ -8,7 +8,7 @@ type Props = {
 
 export const Nav = memo(({ prev, next }: Props) => {
   return (
-    <div className="mt-4 flex justify-between">
+    <div className="flex justify-between">
       <Button onClick={prev} text={"← Prev"} />
       <Button onClick={next} text={"Next →"} />
     </div>
