@@ -2,7 +2,12 @@ import { useState, useCallback } from "react";
 import { Carousel } from "../../components/carousel";
 import { Card } from "../../components/card";
 import { RainEffect } from "../../components/RainEffect";
-import { type CarouselItem, type EffectType } from "../../utilities/type";
+import { SnowEffect } from "../../components/snowEffect";
+import {
+  type CarouselItem,
+  type EffectType,
+  effectTypes,
+} from "../../utilities/type";
 
 const CAROUSEL_ITEMS: CarouselItem[] = [
   { id: 1, title: "Item 1", bgColor: "bg-red-500", imageUrl: "/items/10.webp" },
@@ -11,7 +16,7 @@ const CAROUSEL_ITEMS: CarouselItem[] = [
     title: "Item 2",
     bgColor: "bg-blue-500",
     imageUrl: "/items/9.webp",
-    effectType: "RAIN",
+    effectType: effectTypes.RAIN,
   },
   {
     id: 3,
@@ -24,6 +29,7 @@ const CAROUSEL_ITEMS: CarouselItem[] = [
     title: "Item 4",
     bgColor: "bg-yellow-500",
     imageUrl: "/items/12.webp",
+    effectType: effectTypes.SNOW,
   },
   {
     id: 5,
@@ -48,7 +54,8 @@ export const Home = () => {
 
   return (
     <div className="relative  bg-gray-900 text-white">
-      <RainEffect isDisplay={effect === "RAIN"} />
+      <RainEffect isDisplay={effect === effectTypes.RAIN} />
+      <SnowEffect isDisplay={effect === effectTypes.SNOW} />
       <h1 className="text-2xl font-bold">3D Carousel</h1>
 
       <div className="relative flex flex-col gap-6 items-center justify-center min-h-screen">

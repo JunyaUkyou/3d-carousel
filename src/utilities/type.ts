@@ -1,5 +1,6 @@
 export const effectTypes = {
-  RAIN: "rain",
+  RAIN: "RAIN",
+  SNOW: "SNOW",
 } as const;
 
 export type EffectType = keyof typeof effectTypes;
