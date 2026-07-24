@@ -1,6 +1,6 @@
-import { type ReactNode, useState, useMemo, useCallback } from "react";
-import { getNormalizedIndex } from "../../utilities/getNormalizedIndex";
+import { type ReactNode, useState, useCallback } from "react";
 import { Nav } from "./nav";
+import { useNormalizedCurrentIndex } from "../../hooks/useNormalizedCurrentIndex";
 
 type Props<T extends { id: number }> = {
   items: T[];
@@ -23,9 +23,13 @@ export const Carousel = <T extends { id: number }>({
     setCurrentIndex((prev) => prev + 1);
   }, []);
 
-  const normalizedCurrentIndex = useMemo(
-    () => getNormalizedIndex(currentIndex, totalItems),
-    [currentIndex, totalItems],
+  const moveIndex = useCallback((id: number) => {
+    setCurrentIndex(id);
+  }, []);
+
+  const normalizedCurrentIndex = useNormalizedCurrentIndex(
+    currentIndex,
+    totalItems,
   );
 
   return (
@@ -61,7 +65,15 @@ export const Carousel = <T extends { id: number }>({
           </div>
         </div>
       </div>
-      <Nav prev={prev} next={next} />
+      <div className="w-70 h-42.5 sm:w-110 sm:h-64 md:w-140">
+        <Nav
+          prev={prev}
+          next={next}
+          currentIndex={currentIndex}
+          totalItems={totalItems}
+          moveIndex={moveIndex}
+        />
+      </div>
     </div>
   );
 };
