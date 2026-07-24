@@ -5,33 +5,38 @@ import { RainEffect } from "../../components/RainEffect";
 import { type CarouselItem, type EffectType } from "../../utilities/type";
 
 const CAROUSEL_ITEMS: CarouselItem[] = [
-  { id: 1, title: "Item 1", bgColor: "bg-red-500", imageUrl: "/items/7.webp" },
+  { id: 1, title: "Item 1", bgColor: "bg-red-500", imageUrl: "/items/10.webp" },
   {
     id: 2,
     title: "Item 2",
     bgColor: "bg-blue-500",
-    imageUrl: "/items/8.webp",
+    imageUrl: "/items/9.webp",
     effectType: "RAIN",
   },
   {
     id: 3,
     title: "Item 3",
     bgColor: "bg-green-500",
-    imageUrl: "/items/3.webp",
+    imageUrl: "/items/11.webp",
   },
   {
     id: 4,
     title: "Item 4",
     bgColor: "bg-yellow-500",
-    imageUrl: "/items/4.webp",
+    imageUrl: "/items/12.webp",
   },
   {
     id: 5,
     title: "Item 5",
     bgColor: "bg-purple-500",
-    imageUrl: "/items/5.webp",
+    imageUrl: "/items/13.webp",
   },
-  { id: 6, title: "Item 6", bgColor: "bg-pink-500", imageUrl: "/items/6.webp" },
+  {
+    id: 6,
+    title: "Item 6",
+    bgColor: "bg-pink-500",
+    imageUrl: "/items/14.webp",
+  },
 ];
 
 export const Home = () => {
