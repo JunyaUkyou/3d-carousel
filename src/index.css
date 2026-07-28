@@ -1,6 +1,34 @@
 @import "tailwindcss";
 
 @theme {
-  --radius-carousel-sm: 210px;
-  --radius-carousel-md: 300px;
+  --radius-carousel: 260px;
+  --radius-carousel-sm: 400px;
+  --radius-carousel-md: 550px;
+
+  --animate-rain: rain 0.8s linear infinite;
+  --animate-snow: snow 20s linear infinite;
+
+  @keyframes rain {
+    0% {
+      transform: translateY(0);
+    }
+    100% {
+      transform: rotate(-5deg) translateY(105vh);
+    }
+  }
+
+  @keyframes snow {
+    0% {
+      transform: translateY(0);
+    }
+    25% {
+      transform: translateY(25vh) translateX(20px);
+    }
+    75% {
+      transform: translateY(75vh) translateX(-20px);
+    }
+    100% {
+      transform: translateY(105vh);
+    }
+  }
 }
