@@ -7,7 +7,8 @@
 
   --animate-rain: rain 0.8s linear infinite;
   --animate-snow: snow 20s linear infinite;
-
+  /* --animate-opening: opening 3s linear 5; */
+  --animate-opening: opening 4s ease-out forwards;
   @keyframes rain {
     0% {
       transform: translateY(0);
@@ -16,7 +17,6 @@
       transform: rotate(-5deg) translateY(105vh);
     }
   }
-
   @keyframes snow {
     0% {
       transform: translateY(0);
@@ -29,6 +29,18 @@
     }
     100% {
       transform: translateY(105vh);
+    }
+  }
+
+  @keyframes opening {
+    0% {
+      transform: rotateX(90deg) rotateY(0deg);
+    }
+    80% {
+      transform: rotateX(90deg) rotateY(360deg);
+    }
+    100% {
+      transform: rotateX(0deg) rotateY(360deg);
     }
   }
 }

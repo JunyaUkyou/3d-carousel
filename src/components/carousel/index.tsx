@@ -4,14 +4,18 @@ import { useNormalizedCurrentIndex } from "../../hooks/useNormalizedCurrentIndex
 
 type Props<T extends { id: number }> = {
   items: T[];
+  isOpeningEffect?: boolean;
   renderItem: (data: T, isSelected: boolean) => ReactNode;
 };
 
 export const Carousel = <T extends { id: number }>({
   items,
+  isOpeningEffect = false,
   renderItem,
 }: Props<T>) => {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [isPlaying, setIsPlaying] = useState(isOpeningEffect);
+
   const totalItems = items.length;
   const angleStep = 360 / totalItems;
 
@@ -32,6 +36,10 @@ export const Carousel = <T extends { id: number }>({
     totalItems,
   );
 
+  const handleAnimationEnd = () => {
+    setIsPlaying(false);
+  };
+
   return (
     <div className="flex flex-col w-full gap-6 justify-center items-center ">
       <div className="relative w-70 h-42.5 sm:w-110 sm:h-64 md:w-140 md:h-87.5 [--carousel-radius:var(--radius-carousel)] sm:[--carousel-radius:var(--radius-carousel-sm)] md:[--carousel-radius:var(--radius-carousel-md)] flex items-center justify-center perspective-midrange">
@@ -42,14 +50,20 @@ export const Carousel = <T extends { id: number }>({
           }}
         >
           <div
-            className="absolute w-full h-full transition-transform duration-700 transform-3d"
-            style={{
-              transform: `rotateY(${-currentIndex * angleStep}deg)`,
-            }}
+            onAnimationEnd={handleAnimationEnd}
+            className={`absolute w-full h-full transition-transform duration-700 transform-3d ${isPlaying ? "animate-opening" : ""}`}
+            style={
+              isPlaying
+                ? undefined
+                : {
+                    transform: `rotateY(${-currentIndex * angleStep}deg)`,
+                  }
+            }
           >
             {items.map((item, index) => {
               const itemAngle = index * angleStep;
-              const isActiveIndex = index === normalizedCurrentIndex;
+              const isActiveIndex =
+                !isPlaying && index === normalizedCurrentIndex;
               return (
                 <div
                   key={item.id}
@@ -65,13 +79,15 @@ export const Carousel = <T extends { id: number }>({
           </div>
         </div>
       </div>
-      <div className="w-70 h-42.5 sm:w-110 sm:h-64 md:w-140">
+
+      <div className="w-70 sm:w-110 md:w-140">
         <Nav
           prev={prev}
           next={next}
           currentIndex={currentIndex}
           totalItems={totalItems}
           moveIndex={moveIndex}
+          isPlaying={isPlaying}
         />
       </div>
     </div>
