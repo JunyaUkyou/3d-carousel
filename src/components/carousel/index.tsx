@@ -65,7 +65,7 @@ export const Carousel = <T extends { id: number }>({
           </div>
         </div>
       </div>
-      <div className="w-70 h-42.5 sm:w-110 sm:h-64 md:w-140">
+      <div className="w-70 sm:w-110 md:w-140">
         <Nav
           prev={prev}
           next={next}
