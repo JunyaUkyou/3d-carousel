@@ -7,6 +7,10 @@ const markerStyle = tv({
       true: "opacity-100",
       false: "opacity-20",
     },
+    isPlaying: {
+      true: "pointer-events-none opacity-0",
+      false: "pointer-events-auto",
+    },
   },
 });
 
@@ -14,15 +18,22 @@ type Props = {
   index: number;
   totalItems: number;
   isActive: boolean;
+  isPlaying: boolean;
   onClick: (id: number) => void;
 };
 
-export const Marker = ({ index, totalItems, isActive, onClick }: Props) => {
+export const Marker = ({
+  index,
+  totalItems,
+  isActive,
+  isPlaying,
+  onClick,
+}: Props) => {
   return (
     <li>
       <button
         type="button"
-        className={markerStyle({ isActive })}
+        className={markerStyle({ isActive, isPlaying })}
         role="tab"
         aria-selected={isActive}
         aria-label={`Slide ${index + 1} / ${totalItems}`}

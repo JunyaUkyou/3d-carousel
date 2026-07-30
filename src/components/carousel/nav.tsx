@@ -9,16 +9,22 @@ type Props = {
   currentIndex: number;
   totalItems: number;
   moveIndex: (id: number) => void;
+  isPlaying: boolean;
 };
 
 export const Nav = memo(
-  ({ prev, next, currentIndex, totalItems, moveIndex }: Props) => {
+  ({ prev, next, currentIndex, totalItems, moveIndex, isPlaying }: Props) => {
     const markers = Array.from({ length: totalItems });
     const activeIndex = useNormalizedCurrentIndex(currentIndex, totalItems);
 
     return (
       <nav className="flex justify-between items-center">
-        <SlideButton onClick={prev} text={"←"} aria-label="Prev Slide" />
+        <SlideButton
+          onClick={prev}
+          text={"←"}
+          isPlaying={isPlaying}
+          aria-label="Prev Slide"
+        />
 
         <ul className="flex gap-3">
           {markers.map((_, index) => {
@@ -29,13 +35,19 @@ export const Nav = memo(
                 index={index}
                 totalItems={totalItems}
                 isActive={isActive}
+                isPlaying={isPlaying}
                 onClick={moveIndex}
               />
             );
           })}
         </ul>
 
-        <SlideButton onClick={next} text={"→"} aria-label="Next Slide" />
+        <SlideButton
+          onClick={next}
+          text={"→"}
+          isPlaying={isPlaying}
+          aria-label="Next Slide"
+        />
       </nav>
     );
   },

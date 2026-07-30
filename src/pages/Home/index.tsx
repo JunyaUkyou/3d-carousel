@@ -45,6 +45,8 @@ const CAROUSEL_ITEMS: CarouselItem[] = [
   },
 ];
 
+const isOpeningEffect = true;
+
 export const Home = () => {
   const [effect, setEffect] = useState<EffectType | undefined>(undefined);
 
@@ -58,9 +60,10 @@ export const Home = () => {
       <SnowEffect isDisplay={effect === effectTypes.SNOW} />
       <h1 className="text-2xl font-bold fixed left-2 top-2">3D Carousel</h1>
 
-      <div className="relative flex flex-col gap-6 items-center justify-center min-h-screen">
+      <div className="relative flex flex-col items-center justify-center min-h-screen">
         <Carousel
           items={CAROUSEL_ITEMS}
+          isOpeningEffect={isOpeningEffect}
           renderItem={(item, isActiveIndex) => {
             return (
               <Card
